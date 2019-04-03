@@ -1,0 +1,25 @@
+#!/bin/bash
+
+hostname=$(hostname)
+
+#echo $hostname
+#if [ "$hostname" = "unbK40.localdomain" ];then
+#  nvidia-smi 
+if [ "$hostname" = "rocks-test.local" ];then
+  for i in 0 1 2 3 4
+  do
+  echo $"
+  
++-----------------------------------------------------------------------------+
+|                                                                             |
+|                               NODE 0-$i                                      |
+|                                                                             |
++-----------------------------------------------------------------------------+"
+  ssh -o LogLevel=QUIET -t compute-0-$i 'nvidia-smi' 
+  done
+elif [ "$hostname" = "compute-0-1.local" ]||[ "$hostname" = "compute-0-2.local" ]||[ "$hostname" = "compute-0-2.local" ]||[ "$hostname" = "compute-0-3.local" ]||[ "$hostname" = "compute-0-4.local" ];then
+  ssh -o LogLevel=QUIET -t rocks-test.local 'nvidiall' 
+else
+  nvidia-smi
+fi
+

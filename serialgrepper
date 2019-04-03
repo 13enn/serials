@@ -1,0 +1,18 @@
+#!/bin/bash
+
+hostname=$(hostname)
+
+if [ "$hostname" = "rocks-test.local" ];then
+  echo "--------------------------------"
+  for i in 0 1 2 3 4
+  do
+    echo "my runcfd processes on compute-0-$i"
+    ssh -o LogLevel=QUIET -t compute-0-$i 'ps -o pid,user,time,comm -u $USER | grep -e runcfd -e PID'   
+    echo "--------------------------------"
+  done
+elif [ "$hostname" = "compute-0-1.local" ]||[ "$hostname" = "compute-0-2.local" ]||[ "$hostname" = "compute-0-2.local" ]||[ "$hostname" = "compute-0-3.local" ]||[ "$hostname" = "compute-0-4.local" ];then
+  ssh -o LogLevel=QUIET -t rocks-test.local 'serialgrepper' 
+else
+  'ps -u $USER | grep runcfd'
+fi
+
